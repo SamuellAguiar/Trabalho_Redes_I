@@ -18,7 +18,7 @@ def copilot(message):
     })
 
     headers = {
-        'x-rapidapi-key': "4cde18aa1bmshd34591a77eb65fdp199e81jsn0cb7634422b2",  # Insira sua chave de API
+        'x-rapidapi-key': "e4fa60be34msh7261430d1be2e6bp1c99e7jsncfa5de942140",  # Insira sua chave de API
         'x-rapidapi-host': "copilot5.p.rapidapi.com",
         'Content-Type': "application/json"
     }
@@ -35,41 +35,67 @@ def copilot(message):
     else:
         print("Erro: A resposta não contém a chave 'message' ou 'data'.")
 
+# Obtém a resposta do usuário
 def obter_resposta_usuario():
     resposta = input("Digite a resposta: ")
     return resposta, "Humano"
 
+# Salva os dados do histórico e ranking em arquivos
 def salvar_dados(nome_usuario, historico, ranking):
-    with open("historico.txt", "a", encoding='utf-8') as f_hist, open("ranking.txt", "w", encoding='utf-8') as f_rank:
-        for usuario, perguntas in historico.items():
-            contagem_ia = 0
-            contagem_humano = 0
-            contagem_acertos = 0
-            for pergunta, resposta, origem, acertou in perguntas:
-                f_hist.write(f"Cliente: {usuario} | Pergunta: {pergunta} | Resposta: {resposta} | Origem: {origem} | Acertou? {acertou}\n")
-                if origem == "IA":
-                    contagem_ia += 1
-                else:
-                    contagem_humano += 1
-                if acertou:
-                    contagem_acertos += 1
-            f_hist.write(f"{usuario} - Estatísticas: IA = {contagem_ia}, Humano = {contagem_humano}, Acertos = {contagem_acertos}\n")
-        for usuario, acertos in ranking.items():
-            total_perguntas = len(historico.get(usuario, []))
-            percentual = (acertos / total_perguntas) * 100 if total_perguntas > 0 else 0
-            f_rank.write(f"Cliente: {usuario} |{percentual:.2f}%\n")
+    #Carrega o histórico dos usuários ou cria um novo dicionário
+    try:
+        with open("historico.json", "r") as f_rank:
+            historico_json = json.load(f_rank)
+    except FileNotFoundError:
+        historico_json = {}
+        
+    # Atualiza o histórico_json com o novo histórico do usuário 
+    historico_json[nome_usuario] = historico[nome_usuario]
+    
+    #Salva o historico dos usuários
+    with open("historico.json", "w") as f_hist:
+        json.dump(historico_json, f_hist, indent=4)
+    
+    #Carrega o ranking dos usuários ou cria um novo dicionário
+    try:
+        with open("ranking.json", "r") as f_rank:
+            ranking_json = json.load(f_rank)
+    except FileNotFoundError:
+        ranking_json = {}
+    
+    #Calcula o percentual de acertos do usuário
+    total_perguntas = len(historico[nome_usuario])
+    porcentagem_acertos = (ranking[nome_usuario] / total_perguntas) * 100
+    
+    # Atualiza o ranking_json com o novo usuário e seus dados    
+    ranking_json[nome_usuario] = {
+        "acertos": ranking[nome_usuario],
+        "porcentagem": porcentagem_acertos,
+    }
+    
+    # Salva o ranking_json completo
+    with open("ranking.json", "w") as f_rank:
+        json.dump(ranking_json, f_rank, indent=4)
+    
 
-
+# Carrega o ranking dos usuários
 def carregar_ranking():
     ranking = {}
-    if os.path.exists("ranking.txt"):
-        with open("ranking.txt", "r") as f:
-            for linha in f:
-                partes = linha.strip().split("|") 
-                usuario = partes[0].split(":")[1].strip()  # Extrai o usuário
-                percentual = float(partes[1].strip()[:-1])  # Extrai o percentual
-                ranking[usuario] = percentual
-    return ranking
+    if os.path.exists("ranking.json"):
+        with open("ranking.json", "r") as f:
+            try:
+                ranking_json = json.load(f)
+                for usuario, dados in ranking_json.items():
+                    try:
+                        ranking[usuario] = dados["porcentagem"]
+                    except KeyError:
+                        print(f"Usuário {usuario} não possui a chave 'porcentagem'.")
+            except json.JSONDecodeError:
+                print("Erro ao decodificar o arquivo JSON.")
+
+    # Ordena o ranking por porcentagem de acertos, do maior para o menor
+    ranking_ordenado = dict(sorted(ranking.items(), key=lambda item: item[1], reverse=True))
+    return ranking_ordenado
 
 # Configurações iniciais
 modo_execucao = input("Selecione o modo de execução (automático ou controlado): ").lower()

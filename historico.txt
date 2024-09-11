@@ -1,7 +1,0 @@
-Cliente: Pamela | Pergunta: Qual o melhor agente do Valorant? | Resposta: Clove. | Origem: Humano | Acertou? True
-Cliente: Pamela | Pergunta: Qual o melhor time do Brasil? | Resposta: Atlético-MG. | Origem: Humano | Acertou? False
-Cliente: Pamela | Pergunta: Quanto é 1+1? | Resposta: 2. | Origem: Humano | Acertou? True
-Pamela - Estatísticas: IA = 0, Humano = 3, Acertos = 2
-Cliente: Samuell | Pergunta: Qual a cor do mar? | Resposta: Azul. | Origem: Humano | Acertou? False
-Cliente: Samuell | Pergunta: Qual a fruta mais doce do mundo? | Resposta: A fruta mais doce do mundo é a manga. | Origem: IA | Acertou? True
-Samuell - Estatísticas: IA = 1, Humano = 1, Acertos = 1
