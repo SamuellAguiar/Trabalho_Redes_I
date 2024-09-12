@@ -18,7 +18,7 @@ def copilot(message):
     })
 
     headers = {
-        'x-rapidapi-key': "e4fa60be34msh7261430d1be2e6bp1c99e7jsncfa5de942140",  # Insira sua chave de API
+        'x-rapidapi-key': "3dfefc3992mshd7984631e6312a1p100ae1jsnab2f8333fda2",  # Insira sua chave de API
         'x-rapidapi-host': "copilot5.p.rapidapi.com",
         'Content-Type': "application/json"
     }
@@ -73,9 +73,10 @@ def salvar_dados(nome_usuario, historico, ranking):
         "porcentagem": porcentagem_acertos,
     }
     
+    ranking_json_ordenado = dict(sorted(ranking_json.items(), key=lambda item: item[1]["porcentagem"], reverse=True))
     # Salva o ranking_json completo
     with open("ranking.json", "w") as f_rank:
-        json.dump(ranking_json, f_rank, indent=4)
+        json.dump(ranking_json_ordenado, f_rank, indent=4)
     
 
 # Carrega o ranking dos usuários
@@ -92,10 +93,7 @@ def carregar_ranking():
                         print(f"Usuário {usuario} não possui a chave 'porcentagem'.")
             except json.JSONDecodeError:
                 print("Erro ao decodificar o arquivo JSON.")
-
-    # Ordena o ranking por porcentagem de acertos, do maior para o menor
-    ranking_ordenado = dict(sorted(ranking.items(), key=lambda item: item[1], reverse=True))
-    return ranking_ordenado
+    return ranking
 
 # Configurações iniciais
 modo_execucao = input("Selecione o modo de execução (automático ou controlado): ").lower()

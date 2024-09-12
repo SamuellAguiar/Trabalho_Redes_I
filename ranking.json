@@ -2,5 +2,17 @@
     "Samuell": {
         "acertos": 1,
         "porcentagem": 100.0
+    },
+    "Gabriel": {
+        "acertos": 2,
+        "porcentagem": 66.66666666666666
+    },
+    "Pamela": {
+        "acertos": 1,
+        "porcentagem": 50.0
+    },
+    "Gustavo": {
+        "acertos": 0,
+        "porcentagem": 0.0
     }
 }
