@@ -29,13 +29,15 @@ Este projeto foi implementado para o trabalho de Redes de Computadores I. Ele co
 
 ## Como Executar
 
-- Garanta que o **Python** esteja configurado na sua maquina.
+- Garanta que o **Python** esteja configurado na sua máquina.
 
 - **Obtenha uma chave API do Copilot:** Obtenha uma chave do Copilot e troque a chave que está no campo ``x-rapidapi-key`` pela sua chave no arquivo ``server.py``.
 
-- **Execute o servidor:** Execute o arquivo ``server.py``.
+- **Primeiro execute o servidor:** Execute o arquivo ``server.py``.
 
-- **Execute o cliente:** Execute o arquivo ``client.py`` para se conectar ao servidor.
+- **Configure suas preferências do servidor:** Responda as perguntas de configuração, como modo automático ou controlado e o tempo de espera da resposta da IA.
+
+- **Execute o cliente:** Depois de executar o server.py, execute o arquivo ``client.py`` para se conectar ao servidor e começar a interação.
 
 
 ## Contato

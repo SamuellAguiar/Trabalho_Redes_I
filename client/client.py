@@ -11,7 +11,7 @@ def obter_resposta_usuario():
         print("Opção inválida. Digite 'h' para humano ou 'ia' para IA.")
 
 def main():
-    # interação com o cliente
+    # Interação com o cliente
     nome_usuario = input("Digite seu nome: ")
 
     with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
@@ -27,7 +27,7 @@ def main():
             resposta_completa = s.recv(1024).decode("utf-8")
 
             origem, resposta = resposta_completa.split(" ", 1)
-            origem = origem[1:-1]  # Remove os parênteses
+            origem = origem[1:-1]
 
             print(f"Servidor: {resposta}")
 
